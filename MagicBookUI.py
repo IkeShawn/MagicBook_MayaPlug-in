@@ -70,7 +70,12 @@ def keyTab():
     pm.setParent('..')
     #KeyPart1
     pm.text(label='Set driven key:',height=30)
-
+    pm.rowLayout(numberOfColumns=2,columnWidth=[(1,60),(2,40)],
+                 columnAlign=[(1, 'left'), (2, 'left')],
+                 columnAttach=[(1, 'right', 0), (2, 'both', 0)])
+    pm.text(label='page id:')
+    pm.textField('pageid', tx='0')
+    pm.setParent('..')
 
     #KeyPart2
     pm.rowLayout(numberOfColumns=2,columnWidth=[(1,120),(2,30)],columnAttach=[(1,'both',10),(2,'both',0)])
@@ -151,16 +156,10 @@ def IOTab():
     pm.textField('nameIO')
     pm.setParent('..')
     pm.rowLayout(numberOfColumns=1, columnWidth=(1, 220), columnAttach=(1, 'both', 55))
-    pm.button(label='Export.ma',c='exportUIma()')
+    pm.button(label='Export',c='exportUI()')
     pm.setParent('..')
     pm.rowLayout(numberOfColumns=1, columnWidth=(1, 220), columnAttach=(1, 'both', 55))
-    pm.button(label='Import.ma',c='importUIma()')
-    pm.setParent('..')
-    pm.rowLayout(numberOfColumns=1, columnWidth=(1, 220), columnAttach=(1, 'both', 55))
-    pm.button(label='Export.mb', c='exportUImb()')
-    pm.setParent('..')
-    pm.rowLayout(numberOfColumns=1, columnWidth=(1, 220), columnAttach=(1, 'both', 55))
-    pm.button(label='Import.mb', c='importUImb()')
+    pm.button(label='Import',c='importUI()')
     pm.setParent('..')
 
 def MBGUI():
@@ -184,23 +183,23 @@ def gennerateFromtext():
     pageGenRange(maxid,height,width,heightdiv,widthdiv)
     pm.text('messageBox', edit=1, l='Generate succeed'+';'+str(maxid)+';'+str(height)+';'+str(width)+';'+str(heightdiv)+';'+str(widthdiv))
 def drivenKey():
-
-    setDrivenKey()
-    attrName=nameFromId(0)+'ctrlPoints.flip'
+    pageid=int(pm.textField('pageid',text=1,q=1))
+    setDrivenKey(pageid)
+    attrName=nameFromId(pageid)+'ctrlPoints.flip'
     attr=pm.getAttr(attrName)
     attrFormat='{:.3f}'.format(attr)
     pm.text('messageBox', edit=1, l=attrName+':'+attrFormat)
 def drivenKeySym():
-
-    setDrivenKeySym()
-    attrName=nameFromId(0)+'ctrlPoints.flip'
+    pageid=int(pm.textField('pageid',text=1,q=1))
+    setDrivenKeySym(pageid)
+    attrName=nameFromId(pageid)+'ctrlPoints.flip'
     attr=pm.getAttr(attrName)
     attrFormat='{:.3f}'.format(attr)
     pm.text('messageBox', edit=1, l=attrName+':'+attrFormat)
 def saveStateUI():
-
+    pageid = int(pm.textField('pageid', text=1, q=1))
     stateid = int(pm.textField('stateid', text=1, q=1))
-    saveState(sourceId=0, stateId=stateid)
+    saveState(sourceId=pageid, stateId=stateid)
     pm.text('messageBox', edit=1, l='Saved state'+str(stateid))
 def deleteStateUI():
     stateid = int(pm.textField('stateid', text=1, q=1))
@@ -244,34 +243,18 @@ def disableMagicLink():
     maxid = int(pm.textField('maxid', text=1, q=1))
     delRemapNodeRange(maxid=maxid)
     pm.text('messageBox', edit=1, l='Magic link disabled')
-def exportUIma():
+def exportUI():
     stateidIO=int(pm.textField('stateidIO',text=1,q=1))
     nameIO=pm.textField('nameIO',text=1,q=1)
     if nameIO=='':
         nameIO='state'+str(stateidIO)
-    exportState(stateidIO, nameIO,'ma')
+    exportState(stateidIO, nameIO)
     pm.text('messageBox', edit=1, l='exported:state' + str(stateidIO) + ' , name:' + nameIO)
 
-def importUIma():
+def importUI():
     stateidIO=int(pm.textField('stateidIO',text=1,q=1))
     nameIO=pm.textField('nameIO',text=1,q=1)
     if nameIO=='':
         nameIO='state'+str(stateidIO)
-    importState(stateidIO, nameIO,'ma')
-    pm.text('messageBox',edit=1,l='imported:state'+str(stateidIO)+' , name:'+nameIO)
-
-def exportUImb():
-    stateidIO=int(pm.textField('stateidIO',text=1,q=1))
-    nameIO=pm.textField('nameIO',text=1,q=1)
-    if nameIO=='':
-        nameIO='state'+str(stateidIO)
-    exportState(stateidIO, nameIO,'mb')
-    pm.text('messageBox', edit=1, l='exported:state' + str(stateidIO) + ' , name:' + nameIO)
-
-def importUImb():
-    stateidIO=int(pm.textField('stateidIO',text=1,q=1))
-    nameIO=pm.textField('nameIO',text=1,q=1)
-    if nameIO=='':
-        nameIO='state'+str(stateidIO)
-    importState(stateidIO, nameIO,'mb')
+    importState(stateidIO, nameIO)
     pm.text('messageBox',edit=1,l='imported:state'+str(stateidIO)+' , name:'+nameIO)

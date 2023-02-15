@@ -569,7 +569,7 @@ def delRemapNodeRange(maxid):
     for i in range(-maxid, maxid + 1):
         delRemapNode(pageId=i)
 
-def exportState(stateid,name,suffix):
+def exportState(stateid,name):
     if name=='':
         name='state'+str(stateid)
     pm.select(cl=1)
@@ -578,13 +578,13 @@ def exportState(stateid,name,suffix):
     for i in range(len(attributeList)):
         nodeName=attributeList[i]+'state'+str(stateid)
         pm.select(nodeName,add=1)
-    if suffix == 'ma':
+    try:
         pm.exportSelected(exportPath,force=1,type='mayaAscii')
-    if suffix == 'mb':
+    except:
         pm.exportSelected(exportPathmb,force=1,type='mayaBinary')
 
 
-def importState(stateid,name,suffix):
+def importState(stateid,name):
     if name=='':
         name='state'+str(stateid)
     for i in range(len(attributeList)):
@@ -593,10 +593,10 @@ def importState(stateid,name,suffix):
             pm.delete(nodeName)
         except:
             pass
-    if suffix == 'ma':
+    try:
         importPath = USERAPPDIR + 'plug-ins/MagicBook/' + name + '.ma'
         pm.importFile(importPath)
-    if suffix == 'mb':
+    except:
         importPath = USERAPPDIR + 'plug-ins/MagicBook/' + name + '.mb'
         pm.importFile(importPath)
 
