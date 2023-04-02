@@ -1,1 +1,0 @@
-scriptToShelf "" "from MagicBook import * \nfrom MagicBookUI import * \nimport importlib,sys\nmod1=importlib.reload(sys.modules['MagicBook'])\nmod2=importlib.reload(sys.modules['MagicBookUI'])\nvars().update(mod1.__dict__)\nvars().update(mod2.__dict__)\nMBGUI()\n" "0";
