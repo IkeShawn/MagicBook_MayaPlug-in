@@ -1,1 +1,1 @@
-scriptToShelf "" "from MagicBook import * \n MBGUI()\n" "0";
+scriptToShelf "" "from MagicBook import * \nMBGUI()\n" "0";
